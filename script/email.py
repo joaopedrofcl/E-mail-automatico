@@ -1,6 +1,13 @@
 import smtplib
 import email.message
 
+import mysql.connector 
+usuario = input('Usuário do MySQL:')
+senha = input('Senha MySQL:')
+con = mysql.connector.connect(host = 'localhost' , database = 'projeto' , user = usuario , password  = senha)
+#isso serve para conectar com o mysql
+
+
 nome_re = input('Olá, qual é seu nome?')
 remetente = input('Digite seu e-mail:')
 senha = input('Digite sua senha ')
