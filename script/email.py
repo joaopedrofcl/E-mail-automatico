@@ -2,9 +2,14 @@ import smtplib
 import email.message
 
 import mysql.connector 
+
 usuario = input('Usuário do MySQL:')
 senha = input('Senha MySQL:')
-con = mysql.connector.connect(host = 'localhost' , database = 'projeto' , user = usuario , password  = senha)
+banco = mysql.connector.connect(
+    host = 'localhost' ,
+    database = 'projeto' ,
+    user = usuario ,
+    password  = senha)
 #isso serve para conectar com o mysql
 
 
@@ -14,6 +19,12 @@ senha = input('Digite sua senha ')
 destinatario = input('Para quem deseja enviar esse email?')
 nome_des = input('Qual é o nome dessa pessoa?')
 assunto = input('Qual é o assunto desse e-mail?')
+
+
+cursor = banco.cursor()
+comando_sql = f'SELECT email FROM pessoas where nome ={nome_des}'
+cursor.execute(comando_sql)
+valores_lidos = cursor.fetchall()
 
 def enviar():
     corpo = f''' 
@@ -29,7 +40,7 @@ def enviar():
     password = senha
     msg.add_header('Content-Type', 'text/html')
     msg.set_payload(corpo)
-
+#lembrar de adicionar uma try aqui depois. Pode ser interessante
     s = smtplib.SMTP('smtp.gmail.com: 587')
     s.starttls()
     s.login(msg['From'], password)
